@@ -16,4 +16,4 @@ values (4, 'woosong4', 'woosong44@naver.com', now(), now());
 
 call next value for hibernate_sequence;
 insert into user (`id`, `name`, `email`, `created_at`, `updated_at`)
-values (5, 'woosong', 'woosong11@naver.com', now(), now());
+values (5, 'woosong1', 'woosong55@naver.com', now(), now());

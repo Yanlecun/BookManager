@@ -1,6 +1,7 @@
 package com.fastcampus.jpa.bookmanager.repository;
 
 import com.fastcampus.jpa.bookmanager.domain.User;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -75,4 +76,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUserByNameIs(String name);
     List<User> findUserByName(String name);
     List<User> findUserByNameEquals(String name);
+
+    // order-by
+    List<User> findUserTop2ByNameOrderByIdDesc(String name); // Asc = 오름차순
+
+    // order by ? desc하고 , ? asc 의 결괏값의 제일 첫번째
+    List<User> findFirstByNameOrderByIdDescEmailAsc(String name);
+
+    // JpaRepository 잘 살펴보면 Sort를 인자로 받음
+    // name인 조건 + sort에 추가로 column을 인자로 줘서 출력하기
+    // 메소드 이름이 끝없이 길어지면 가독성 너무 안 좋기 떄문에 Sort를 인자로 주는 것도 좋다
+    // 다만, 정답은 없기에 어떤 것이 좋은지 계속 고민해보자
+    List<User> findTopByName(String name, Sort sort);
 }

@@ -61,9 +61,20 @@ class UserRepositoryTest {
 
         System.out.println("findByNameLike : " + userRepository.findByNameLike("%oo%"));
 
+    }
 
+    @Test
+    void pagingAndSorting() {
+        System.out.println("findUserTop2ByNameOrderByIdDesc : " + userRepository.findUserTop2ByNameOrderByIdDesc("woosong1"));
+        System.out.println("findFirstByNameOrderByIdDescEmailAsc : " + userRepository.findFirstByNameOrderByIdDescEmailAsc("woosong"));
 
+        System.out.println("findTopByNameWithSortParams : " + userRepository.findTopByName("woosong", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email"))));
+    }
 
-
+    private Sort getSort() {
+        return Sort.by(
+                Sort.Order.desc("id"),
+                Sort.Order.asc("email")
+        );
     }
 }
