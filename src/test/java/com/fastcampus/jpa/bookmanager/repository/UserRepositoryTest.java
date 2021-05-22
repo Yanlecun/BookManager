@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,20 +37,33 @@ class UserRepositoryTest {
 
     @Test
     void select() {
-        System.out.println(userRepository.findByName("woosong"));
-        // 모두 동일한 쿼리, 동일한 결괏값을 가짐
-        // 잘못 전달될만한 네이밍 ex) findSomethingByEmail 같은 거 쓰면 안 된다.
-        // 잘못된 메소드이름은 실재 동작될 때 오류난다.
-        System.out.println("findByEmail" + userRepository.findByEmail("woosong@naver.com"));
-        System.out.println("getByEmail" + userRepository.getByEmail("woosong@naver.com"));
-        System.out.println("readByEmail" + userRepository.readByEmail("woosong@naver.com"));
-        System.out.println("queryByEmail" + userRepository.queryByEmail("woosong@naver.com"));
-        System.out.println("searchByEmail" + userRepository.searchByEmail("woosong@naver.com"));
-        System.out.println("streamByEmail" + userRepository.streamByEmail("woosong@naver.com"));
-        System.out.println("findUserByEmail" + userRepository.findUserByEmail("woosong@naver.com"));
+        System.out.println("findByEmailAndName" + userRepository.findByEmailAndName("woosong11@naver.com", "woosong1"));
+        System.out.println("findByEmailOrName" + userRepository.findByEmailOrName("woosong11@naver.com", "woosong1"));
+        System.out.println("findByCreatedAtAfter" + userRepository.findByCreatedAtAfter(LocalDateTime.now().minusDays(1L)));
+        System.out.println("findByIdAfter" + userRepository.findByIdAfter(4L));
 
-        System.out.println("findTop1ByName" + userRepository.findTop1ByName("woosong@naver.com"));
-        System.out.println("findFirst1ByName" + userRepository.findFirst1ByName("woosong@naver.com"));
+        System.out.println("findByCreatedAtGreaterThan : " + userRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)));
+        System.out.println("findByCreatedAtGreaterThanEqual : " + userRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)));
+
+
+        System.out.println("findByCreatedAtBetween : " + userRepository.findByCreatedAtBetween(LocalDateTime.now().minusDays(1L),LocalDateTime.now()));
+        System.out.println("findByIdBetween : " + userRepository.findByIdBetween(1L, 3L));
+        System.out.println("findByIdGreaterThanEqualAndIdLessThanEqual : " + userRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L));
+
+        System.out.println("findByIdIsNotNull : " + userRepository.findByIdIsNotNull());
+        System.out.println("findByAddressIsNotEmpty : " + userRepository.findByAddressIsNotEmpty());
+
+        System.out.println("findByNameIn : " + userRepository.findByNameIn(Lists.newArrayList("woosong1", "woosong2")));
+
+        System.out.println("findByNameStartingWith : " + userRepository.findByNameStartingWith("woo"));
+        System.out.println("findByNameEndingWith : " + userRepository.findByNameEndingWith("song1"));
+        System.out.println("findByNameContains : " + userRepository.findByNameContains("song1"));
+
+        System.out.println("findByNameLike : " + userRepository.findByNameLike("%oo%"));
+
+
+
+
 
     }
 }
