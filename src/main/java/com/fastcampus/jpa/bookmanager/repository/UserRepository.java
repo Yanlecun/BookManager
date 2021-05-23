@@ -1,6 +1,8 @@
 package com.fastcampus.jpa.bookmanager.repository;
 
 import com.fastcampus.jpa.bookmanager.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -88,4 +90,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // 메소드 이름이 끝없이 길어지면 가독성 너무 안 좋기 떄문에 Sort를 인자로 주는 것도 좋다
     // 다만, 정답은 없기에 어떤 것이 좋은지 계속 고민해보자
     List<User> findTopByName(String name, Sort sort);
+
+
+    // Page(전체 페이지에 대한 정보들, page에 대한 응답값) 인터페이스 extends slice(데이터 묶음의 일부)
+    // Pagable page에 대한 요청값
+    Page<User> findByName(String name, Pageable pageable);
 }

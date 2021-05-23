@@ -25,7 +25,7 @@ class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    //@Transactional
+        //@Transactional
     void crud() {
         //userRepository.save(new User("kim", "fa@naver.com"));
         User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
@@ -46,7 +46,7 @@ class UserRepositoryTest {
         System.out.println("findByCreatedAtGreaterThanEqual : " + userRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)));
 
 
-        System.out.println("findByCreatedAtBetween : " + userRepository.findByCreatedAtBetween(LocalDateTime.now().minusDays(1L),LocalDateTime.now()));
+        System.out.println("findByCreatedAtBetween : " + userRepository.findByCreatedAtBetween(LocalDateTime.now().minusDays(1L), LocalDateTime.now()));
         System.out.println("findByIdBetween : " + userRepository.findByIdBetween(1L, 3L));
         System.out.println("findByIdGreaterThanEqualAndIdLessThanEqual : " + userRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L));
 
@@ -66,9 +66,15 @@ class UserRepositoryTest {
     @Test
     void pagingAndSorting() {
         System.out.println("findUserTop2ByNameOrderByIdDesc : " + userRepository.findUserTop2ByNameOrderByIdDesc("woosong1"));
-        System.out.println("findFirstByNameOrderByIdDescEmailAsc : " + userRepository.findFirstByNameOrderByIdDescEmailAsc("woosong"));
+        System.out.println("findFirstByNameOrderByIdDescEmailAsc : " + userRepository.findFirstByNameOrderByIdDescEmailAsc("woosong1"));
 
-        System.out.println("findTopByNameWithSortParams : " + userRepository.findTopByName("woosong", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email"))));
+        System.out.println("findTopByNameWithSortParams : " + userRepository.findTopByName("woosong1", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email"))));
+
+        // toString 오버로딩 방식이 다르기 때문에 getContent를 chaining하자
+        // getTotalElements = select 쿼리의 count값도 실행, 총 갯수
+        System.out.println("findByNameWithPaging : " + userRepository.findByName("woosong1", PageRequest.of(0,1,Sort.by(Sort.Order.desc("id")))).getContent());
+
+
     }
 
     private Sort getSort() {
