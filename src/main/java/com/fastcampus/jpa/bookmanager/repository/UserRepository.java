@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -59,7 +61,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // collection 타입의 NotEmpty를 확인한다.
     // 많이 사용되지 않는 메소드, 그냥 `Email != null && Email != ''` 이 아닌 것만 이해해도 된다.
     //List<User> findByEmailIsNotEmpty();  -> 에러
-    List<User> findByAddressIsNotEmpty();
+    //List<User> findByAddressIsNotEmpty();
 
     // where name in/or ( ? , ? )
     List<User> findByNameIn(List<String> names);
@@ -95,4 +97,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Page(전체 페이지에 대한 정보들, page에 대한 응답값) 인터페이스 extends slice(데이터 묶음의 일부)
     // Pagable page에 대한 요청값
     Page<User> findByName(String name, Pageable pageable);
+
+    // Native Query, User타입해도 되지만, 더 raw한 값으로 살펴보자
+    @Query(value="select * from user limit 1", nativeQuery = true)
+    Map<String, Object> findRawRecord();
 }

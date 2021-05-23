@@ -1,5 +1,6 @@
 package com.fastcampus.jpa.bookmanager.repository;
 
+import com.fastcampus.jpa.bookmanager.domain.Gender;
 import com.fastcampus.jpa.bookmanager.domain.User;
 import lombok.Builder;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
@@ -51,7 +52,7 @@ class UserRepositoryTest {
         System.out.println("findByIdGreaterThanEqualAndIdLessThanEqual : " + userRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L));
 
         System.out.println("findByIdIsNotNull : " + userRepository.findByIdIsNotNull());
-        System.out.println("findByAddressIsNotEmpty : " + userRepository.findByAddressIsNotEmpty());
+        //System.out.println("findByAddressIsNotEmpty : " + userRepository.findByAddressIsNotEmpty());
 
         System.out.println("findByNameIn : " + userRepository.findByNameIn(Lists.newArrayList("woosong1", "woosong2")));
 
@@ -73,14 +74,35 @@ class UserRepositoryTest {
         // toString 오버로딩 방식이 다르기 때문에 getContent를 chaining하자
         // getTotalElements = select 쿼리의 count값도 실행, 총 갯수
         System.out.println("findByNameWithPaging : " + userRepository.findByName("woosong1", PageRequest.of(0,1,Sort.by(Sort.Order.desc("id")))).getContent());
-
-
     }
-
     private Sort getSort() {
         return Sort.by(
                 Sort.Order.desc("id"),
                 Sort.Order.asc("email")
         );
+    }
+
+    @Test
+    void insertAndUpdateTest() {
+        User user = new User();
+        user.setName("martin");
+        user.setEmail("martin@fastcampus.com");
+        userRepository.save(user);
+
+        User user2 = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user2.setName("qqqqqqqq");
+        userRepository.save(user2);  // upadate
+    }
+
+    @Test
+    void enumTest() {
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setGender(Gender.MALE);
+        userRepository.save(user);
+        userRepository.findAll().forEach(System.out::println);
+
+        System.out.println(userRepository.findRawRecord().get("gender")); // 0 or 1 값이 반환 왜 ?
+        // Enumerated의 default가 ordinal(index값)이기 때문이다. 다만 코드 리팩토링을 한다면 저장값과 index값에 괴리가 생긴다.
+        // 따라서 value에 반드시 String으로 지정해주어야 한다.
     }
 }
