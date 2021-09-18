@@ -3,9 +3,7 @@ package com.fastcampus.jpa.bookmanager.domain;
 import com.fastcampus.jpa.bookmanager.domain.listener.Auditable;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @ToString(callSuper = true)
@@ -17,15 +15,18 @@ import javax.persistence.Id;
 //@EntityListeners(value = AuditingEntityListener.class)
 public class Book extends BaseEntity {
     @Id
-    @GeneratedValue // DB종류(지금은 H2)에 따라 생성된 값 그대로 사용
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String author;
 
-    public Long authorId;
-    public Long publisherId;
+    private Long authorId;
+    private Long publisherId;
 
+    @OneToOne(mappedBy = "book") // 양방향 릴레이션 걸기 (책리뷰정보 ID값, Book테이블에서 안 보이게 하기)
+    @ToString.Exclude // ToString의 순환참조에 의해 없는 거 참조 못하잖아
+    private BookReviewInfo bookReviewInfo;
 //    @CreatedDate
 //    private LocalDateTime createdAt;
 //    @LastModifiedDate

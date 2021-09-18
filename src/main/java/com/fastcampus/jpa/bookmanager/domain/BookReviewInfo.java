@@ -1,8 +1,6 @@
 package com.fastcampus.jpa.bookmanager.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.* ;
 
@@ -15,14 +13,14 @@ import lombok.* ;
 @Builder
 public class BookReviewInfo extends BaseEntity{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long bookId;
+    //private Long bookId;
+    @OneToOne(optional = false)
+    private Book book;
 
-    private float averageReviewScore; // primitive vs wrappered type
-                                      // 기본값이 0이냐 null이냐
-
+    private float averageReviewScore;
     private int reviewCount;
 
 }

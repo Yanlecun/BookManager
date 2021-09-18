@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Table(name="user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class User extends BaseEntity {
     @Id // User라는 table의 pk값
-    @GeneratedValue // 순차적으로 값 증가시키기
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull // RequiredArgsConstructor 어노테이션이 챙길 속성이다
