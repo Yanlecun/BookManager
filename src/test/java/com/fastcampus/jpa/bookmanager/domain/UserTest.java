@@ -20,7 +20,7 @@ class UserTest {
         User user_builder = new User();
         user_builder.builder().name("john")
                 .email("test@naver.com")
-                .createdAt(LocalDateTime.now())
+                //.createdAt(LocalDateTime.now())
                 .build();
         System.out.println(user_builder.getName());
     }

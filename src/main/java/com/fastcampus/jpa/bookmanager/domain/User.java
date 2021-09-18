@@ -1,24 +1,26 @@
 package com.fastcampus.jpa.bookmanager.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fastcampus.jpa.bookmanager.domain.listener.Auditable;
+import com.fastcampus.jpa.bookmanager.domain.listener.UserEntityListener;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.security.PrivateKey;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
+@ToString(callSuper = true)  // 상속받은 클래스 필드까지 실제 컬럼으로 동작시키겠다고 알림
+@EqualsAndHashCode(callSuper = true) // BaseEntity의 속성들을 내것으로 만들기
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder  // 객체 생성하고 필드값을 주입함
 @Entity //  ORM이 말하는 객체 선언, 구분할 수 있는 고유 값이 있어야 한다.
-@EntityListeners(value = MyEntityListener.class)
+@EntityListeners(value = { UserEntityListener.class}) // AuditingEntityListener.class 이것도 삭제 BaseEntity에서 처리
 @Table(name="user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-public class User implements Auditable{
+public class User extends BaseEntity implements Auditable {
     @Id // User라는 table의 pk값
     @GeneratedValue // 순차적으로 값 증가시키기
     private Long id;
@@ -27,9 +29,13 @@ public class User implements Auditable{
     private String name;
     @NonNull
     private String email;
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
+//    @Column(updatable = false)
+//    @CreatedDate
+//    private LocalDateTime createdAt;
+//    @LastModifiedDate
+//    private LocalDateTime updatedAt;
+    // BaseEntity 에서 사용하니까 삭제
 
     @Transient
     private String testData;
