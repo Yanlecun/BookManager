@@ -15,13 +15,16 @@ import javax.persistence.Id;
 @Builder
 @Entity // Entity 객체라고 알리기
 //@EntityListeners(value = AuditingEntityListener.class)
-public class Book extends BaseEntity implements Auditable {
+public class Book extends BaseEntity {
     @Id
     @GeneratedValue // DB종류(지금은 H2)에 따라 생성된 값 그대로 사용
     private Long id;
 
     private String name;
     private String author;
+
+    public Long authorId;
+    public Long publisherId;
 
 //    @CreatedDate
 //    private LocalDateTime createdAt;

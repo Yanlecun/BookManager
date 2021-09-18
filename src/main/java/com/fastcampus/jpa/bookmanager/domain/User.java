@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Entity //  ORM이 말하는 객체 선언, 구분할 수 있는 고유 값이 있어야 한다.
 @EntityListeners(value = { UserEntityListener.class}) // AuditingEntityListener.class 이것도 삭제 BaseEntity에서 처리
 @Table(name="user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-public class User extends BaseEntity implements Auditable {
+public class User extends BaseEntity {
     @Id // User라는 table의 pk값
     @GeneratedValue // 순차적으로 값 증가시키기
     private Long id;

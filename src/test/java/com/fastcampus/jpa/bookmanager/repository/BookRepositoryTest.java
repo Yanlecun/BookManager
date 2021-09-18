@@ -15,6 +15,8 @@ public class BookRepositoryTest {
         Book book = new  Book();
         book.setName("스프링으로 배우는");
         book.setAuthor("송우");
+        book.setAuthorId(1L);
+        book.setPublisherId(1L);
 
         bookRepository.save(book);
         System.out.println(bookRepository.findAll());
