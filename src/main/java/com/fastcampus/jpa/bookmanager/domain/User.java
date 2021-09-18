@@ -9,6 +9,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @ToString(callSuper = true)  // 상속받은 클래스 필드까지 실제 컬럼으로 동작시키겠다고 알림
@@ -30,22 +32,29 @@ public class User extends BaseEntity {
     @NonNull
     private String email;
 
-//    @Column(updatable = false)
-//    @CreatedDate
-//    private LocalDateTime createdAt;
-//    @LastModifiedDate
-//    private LocalDateTime updatedAt;
-    // BaseEntity 에서 사용하니까 삭제
-
     @Transient
     private String testData;
 
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
+    @OneToMany(fetch = FetchType.EAGER) // 트랜잭션 배울 때 다시 설명할게
+    @JoinColumn(name = "user_id",insertable = false, updatable = false) //entity가 어떤 칼럼으로 join하게 될지 지정함 -> user_history_id 가 기본값
+                                    // UserHistory는 read-only 이므로 추가하자
+    // JPA에서는 로직에 따라 @Post~ 에서 널포인트예외 일어날 수 있으므로 생성자도 포함시키자
+    private List<UserHistory> userHistories = new ArrayList<>(); // 리스트는 복수형을 쓰는 것이 최근 트렌드
+
+
+
     //@OneToMany(fetch = FetchType.EAGER)
     //private List<Address> address;
 
+//    @Column(updatable = false)
+//    @CreatedDate
+//    private LocalDateTime createdAt;
+//    @LastModifiedDate
+//    private LocalDateTime updatedAt;
+    // BaseEntity 에서 사용하니까 삭제
 
 //    @PrePersist // persist(insert)가 호출되기 전에 호출되는 메소드
 //    public void prePersist() {

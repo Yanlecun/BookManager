@@ -4,11 +4,9 @@ import com.fastcampus.jpa.bookmanager.domain.User;
 import com.fastcampus.jpa.bookmanager.domain.UserHistory;
 import com.fastcampus.jpa.bookmanager.repository.UserHistoryRepository;
 import com.fastcampus.jpa.bookmanager.support.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 
 //@Component
 // Listener는 bean을 주입받지 못 한다.
@@ -17,8 +15,8 @@ public class UserEntityListener {
     //private UserHistoryRepository userHistoryRepository;
 
     // UserEntity가 생성 및 수정될 때마다 기록이 남음
-    @PrePersist
-    @PreUpdate
+    @PostPersist
+    @PostUpdate
     public void prePersistAndUpdate(Object o) {
         UserHistoryRepository userHistoryRepository = BeanUtils.getBean(UserHistoryRepository.class);
         User user = (User) o;

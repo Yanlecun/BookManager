@@ -2,6 +2,7 @@ package com.fastcampus.jpa.bookmanager.repository;
 
 import com.fastcampus.jpa.bookmanager.domain.Gender;
 import com.fastcampus.jpa.bookmanager.domain.User;
+import com.fastcampus.jpa.bookmanager.domain.UserHistory;
 import lombok.Builder;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.assertj.core.util.Lists;
@@ -136,5 +137,29 @@ class UserRepositoryTest {
         userRepository.save(user);
 
         userHistoryRepository.findAll().forEach(System.out::println);
+    }
+
+    @Test
+    void userRelationTest() {
+        User user = new User();
+        user.setName("thddn");
+        user.setEmail("abcd@naver.com");
+        user.setGender(Gender.MALE);
+        userRepository.save(user);
+
+        user.setName("woosong");
+        userRepository.save(user);
+
+        user.setEmail("a@naver.com");
+        userRepository.save(user);
+
+        //userHistoryRepository.findAll().forEach(System.out::println);
+
+//        List<UserHistory> result = userHistoryRepository.findByUserId(
+//                userRepository.findByEmail("a@naver.com").getId()
+//        );
+
+        List<UserHistory> result = userRepository.findByEmail("a@naver.com").getUserHistories();
+        result.forEach(System.out::println);
     }
 }
