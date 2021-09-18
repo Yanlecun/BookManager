@@ -105,4 +105,19 @@ class UserRepositoryTest {
         // Enumerated의 default가 ordinal(index값)이기 때문이다. 다만 코드 리팩토링을 한다면 저장값과 index값에 괴리가 생긴다.
         // 따라서 value에 반드시 String으로 지정해주어야 한다.
     }
+
+    @Test
+    void listenerTest() {
+        User user = new User();
+        user.setEmail("thd@naver.com");
+        user.setName("songwoo");
+
+        userRepository.save(user);
+        User user2 = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user2.setName("songwoo1");
+
+        userRepository.save(user2);
+
+        userRepository.deleteById(4L);
+    }
 }

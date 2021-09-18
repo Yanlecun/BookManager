@@ -16,8 +16,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Builder  // 객체 생성하고 필드값을 주입함
 @Entity //  ORM이 말하는 객체 선언, 구분할 수 있는 고유 값이 있어야 한다.
+@EntityListeners(value = MyEntityListener.class)
 @Table(name="user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-public class User {
+public class User implements Auditable{
     @Id // User라는 table의 pk값
     @GeneratedValue // 순차적으로 값 증가시키기
     private Long id;
@@ -38,4 +39,16 @@ public class User {
 
     //@OneToMany(fetch = FetchType.EAGER)
     //private List<Address> address;
+
+
+//    @PrePersist // persist(insert)가 호출되기 전에 호출되는 메소드
+//    public void prePersist() {
+//        this.createdAt = LocalDateTime.now();
+//        this.updatedAt = LocalDateTime.now();
+//    }
+//    @PreUpdate  // merge메소드 전
+//    public void preUpdate() {
+//        this.updatedAt = LocalDateTime.now();
+//    }
+    //MyEntityListener에서 대신 역할을 해줄거기 때문에 주석처리
 }
