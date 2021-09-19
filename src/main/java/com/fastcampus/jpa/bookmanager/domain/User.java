@@ -10,7 +10,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @ToString(callSuper = true)  // 상속받은 클래스 필드까지 실제 컬럼으로 동작시키겠다고 알림
@@ -18,7 +20,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Builder  // 객체 생성하고 필드값을 주입함
 @Entity //  ORM이 말하는 객체 선언, 구분할 수 있는 고유 값이 있어야 한다.
 @EntityListeners(value = { UserEntityListener.class}) // AuditingEntityListener.class 이것도 삭제 BaseEntity에서 처리
 @Table(name="user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
@@ -42,9 +43,13 @@ public class User extends BaseEntity {
     @JoinColumn(name = "user_id",insertable = false, updatable = false) //entity가 어떤 칼럼으로 join하게 될지 지정함 -> user_history_id 가 기본값
                                     // UserHistory는 read-only 이므로 추가하자
     // JPA에서는 로직에 따라 @Post~ 에서 널포인트예외 일어날 수 있으므로 생성자도 포함시키자
+    @ToString.Exclude // 없으면 stackoverflow, 로그 에러
     private List<UserHistory> userHistories = new ArrayList<>(); // 리스트는 복수형을 쓰는 것이 최근 트렌드
 
-
+    @OneToMany(fetch = FetchType.LAZY) // 일단 ㄱㄱ @Transactinal 이랑 사용
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private List<Review> reviews = new ArrayList<>();
 
     //@OneToMany(fetch = FetchType.EAGER)
     //private List<Address> address;

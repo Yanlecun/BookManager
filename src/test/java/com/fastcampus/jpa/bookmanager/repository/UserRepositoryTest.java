@@ -125,7 +125,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void userHisttoryTest() {
+    void userHistoryTest() {
         User user = new User();
         user.setEmail("thd-new@naver.com");
         user.setName("thd-new");

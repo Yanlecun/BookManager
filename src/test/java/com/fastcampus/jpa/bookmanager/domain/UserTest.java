@@ -17,11 +17,11 @@ class UserTest {
         System.out.println("getName : "+ user.getName());
         System.out.println(user);
 
-        User user_builder = new User();
-        user_builder.builder().name("john")
-                .email("test@naver.com")
-                //.createdAt(LocalDateTime.now())
-                .build();
-        System.out.println(user_builder.getName());
+//        User user_builder = new User();
+//        user_builder.builder().name("john")
+//                .email("test@naver.com")
+//                //.createdAt(LocalDateTime.now())
+//                .build();
+//        System.out.println(user_builder.getName());
     }
 }
