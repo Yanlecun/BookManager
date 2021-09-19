@@ -5,8 +5,15 @@ spring:
   jpa:
     # 어떻게 작동하는지 로그를 통해 확인할 수 있도록 하기
     show-sql: true
-
     # query 보기 좋게 정렬하기
     properties:
       hibernate:
         format_sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:mysql://localhost:3306/book_manager
+    username: root
+    password: 1234
+    initialization-mode: always

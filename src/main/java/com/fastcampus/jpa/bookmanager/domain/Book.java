@@ -49,11 +49,6 @@ public class Book extends BaseEntity {
         Collections.addAll(this.bookAndAuthors, bookAndAuthors);
     }
 
-    // User (여러 개의 상품 구매 가능)
-    // user_product 이러한 중간 테이블 -> order(주문)라는 중간 테이블로 처리 가능 (또다른 Entity 생성)
-    // Product (여러 명의 사람이 구입했음)
-    
-    
 //    @CreatedDate
 //    private LocalDateTime createdAt;
 //    @LastModifiedDate
