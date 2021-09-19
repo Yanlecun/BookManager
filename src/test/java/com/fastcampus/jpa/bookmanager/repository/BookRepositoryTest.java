@@ -24,8 +24,8 @@ public class BookRepositoryTest {
     void bookTest() {
         Book book = new  Book();
         book.setName("스프링으로 배우는");
-        book.setAuthor("송우");
-        book.setAuthorId(1L);
+//        book.setAuthor("송우");
+//        book.setAuthorId(1L);
         //book.setPublisherId(1L);
 
         bookRepository.save(book);
@@ -53,7 +53,7 @@ public class BookRepositoryTest {
     private Book givenBook(Publisher publisher) {
         Book book = new Book();
         book.setName("JPA 교과서");
-        book.setAuthorId(1L);
+//        book.setAuthorId(1L);
         book.setPublisher(publisher);
         return bookRepository.save(book);
     }

@@ -4,15 +4,13 @@ import com.fastcampus.jpa.bookmanager.domain.listener.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity // Entity 객체라고 알리기
 //@EntityListeners(value = AuditingEntityListener.class)
 public class Book extends BaseEntity {
@@ -21,9 +19,6 @@ public class Book extends BaseEntity {
     private Long id;
 
     private String name;
-    private String author;
-
-    private Long authorId;
 
 
     @OneToOne(mappedBy = "book") // 양방향 릴레이션 걸기 (책리뷰정보 ID값, Book테이블에서 안 보이게 하기)
@@ -40,6 +35,25 @@ public class Book extends BaseEntity {
     private Publisher publisher;
     // private Long publisherId; 삭제
 
+    @ManyToMany
+    //@OneToMany
+    //@JoinColumn(name = "book_id")
+    @ToString.Exclude
+    private List<Author> authors = new ArrayList<>();
+    //private String author;
+    //private Long authorId;
+        // 삭제
+
+    // 원래는 Test에서 처럼 나열하지 않고 다음 메소드 만들어서 만듦
+    public void addAuthor(Author... author) {
+        Collections.addAll(this.authors, author);
+    }
+
+    // User (여러 개의 상품 구매 가능)
+    // user_product 이러한 중간 테이블 -> order(주문)라는 중간 테이블로 처리 가능 (또다른 Entity 생성)
+    // Product (여러 명의 사람이 구입했음)
+    
+    
 //    @CreatedDate
 //    private LocalDateTime createdAt;
 //    @LastModifiedDate
