@@ -35,18 +35,18 @@ public class Book extends BaseEntity {
     private Publisher publisher;
     // private Long publisherId; 삭제
 
-    @ManyToMany
-    //@OneToMany
-    //@JoinColumn(name = "book_id")
+//    @ManyToMany
+    @OneToMany
+    @JoinColumn(name = "book_id")
     @ToString.Exclude
-    private List<Author> authors = new ArrayList<>();
+    private List<BookAndAuthor> bookAndAuthors = new ArrayList<>();
     //private String author;
     //private Long authorId;
         // 삭제
 
     // 원래는 Test에서 처럼 나열하지 않고 다음 메소드 만들어서 만듦
-    public void addAuthor(Author... author) {
-        Collections.addAll(this.authors, author);
+    public void addBookAndAuthors(BookAndAuthor... bookAndAuthors) {
+        Collections.addAll(this.bookAndAuthors, bookAndAuthors);
     }
 
     // User (여러 개의 상품 구매 가능)
