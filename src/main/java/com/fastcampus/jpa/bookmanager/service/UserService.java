@@ -10,6 +10,11 @@ import javax.persistence.EntityManager;
 
 @Service // 서비스 빈 표시
 public class UserService {
+    @Autowired
+    private EntityManager entityManager;
+    @Autowired
+    private UserRepository userRepository;
+
     @Transactional
     public void put() {
         User user = new User();  // 비영속 상태
@@ -32,9 +37,6 @@ public class UserService {
         entityManager.remove(user1); // 이후 merge 할 경우 실행오류
     }
 
-    @Autowired
-    private EntityManager entityManager;
-    @Autowired
-    private UserRepository userRepository;
+
 
 }
