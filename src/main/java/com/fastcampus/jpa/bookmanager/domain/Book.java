@@ -2,6 +2,7 @@ package com.fastcampus.jpa.bookmanager.domain;
 
 import com.fastcampus.jpa.bookmanager.domain.listener.Auditable;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.*;
@@ -12,6 +13,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity // Entity 객체라고 알리기
+@Where(clause = "deleted = false") // 이거 추가해버리면 deleted true만 flag해도 지워짐
 //@EntityListeners(value = AuditingEntityListener.class)
 public class Book extends BaseEntity {
     @Id
@@ -30,7 +32,7 @@ public class Book extends BaseEntity {
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE} ) // INSERT에 대해서 영속성전이를 일으킴, book이 save될 때 자바 객체 상태로 있는 publisher도 같이 저장하게 해줘
     @ToString.Exclude
     private Publisher publisher;
     // private Long publisherId; 삭제
@@ -48,6 +50,8 @@ public class Book extends BaseEntity {
     public void addBookAndAuthors(BookAndAuthor... bookAndAuthors) {
         Collections.addAll(this.bookAndAuthors, bookAndAuthors);
     }
+
+    private boolean deleted;
 
 //    @CreatedDate
 //    private LocalDateTime createdAt;

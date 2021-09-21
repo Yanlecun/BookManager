@@ -5,8 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface BookRepository extends JpaRepository<Book, Long> {
     @Modifying
     @Query(value = "update book set category='none'", nativeQuery = true)
     void update() ; //이 메소드를 실행하면 해당 쿼리를 실행한다.
+
+//    List<Book> findByCategoryIsNull();
+//    List<Book> findAllByDeletedFalse();
+//    List<Book> findByCategoryIsNullAndDeletedFalse();
 }

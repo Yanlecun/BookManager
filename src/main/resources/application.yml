@@ -14,6 +14,7 @@ spring:
       ddl-auto: create-drop
   datasource:
     url: jdbc:mysql://localhost:3306/book_manager
+    sql-script-encoding: utf-8
     username: root
     password: 1234
     initialization-mode: always
