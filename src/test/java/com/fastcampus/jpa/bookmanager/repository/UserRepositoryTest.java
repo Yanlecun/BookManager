@@ -22,6 +22,7 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.endsWith;
 
 @SpringBootTest // spring context를 로딩해서 테스트에 활용하겠다는 뜻
+
 class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;

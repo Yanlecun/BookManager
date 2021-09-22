@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest
 public class BookRepositoryTest {
@@ -149,4 +150,24 @@ public class BookRepositoryTest {
 
         bookRepository.findBookNameAndCategory(PageRequest.of(1,1)).forEach(bookNameAndCategory -> System.out.println(bookNameAndCategory.getName() + " : " + bookNameAndCategory.getCategory()));
     }
+    
+    @Test
+    void nativeQueryTest() {
+        //bookRepository.findAll().forEach(System.out::println);
+        //bookRepository.findAllCustom().forEach(System.out::println);  // 서로 비교해보자 결과 같을 것임
+
+        List<Book> books = bookRepository.findAll();
+
+        for(Book book : books) {
+            book.setCategory("카테고리카테고리");
+        }
+        bookRepository.saveAll(books);
+        System.out.println(bookRepository.findAll());
+
+        System.out.println(bookRepository.updateCategories()+ " 건 실행 완료");
+        bookRepository.findAll().forEach(System.out::println);  // deleted = false까지 적용되어서 출력함
+
+        System.out.println(bookRepository.showDatases());
+    }
+
 }

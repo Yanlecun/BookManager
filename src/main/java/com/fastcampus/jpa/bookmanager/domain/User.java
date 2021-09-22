@@ -22,7 +22,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Entity //  ORM이 말하는 객체 선언, 구분할 수 있는 고유 값이 있어야 한다.
 @EntityListeners(value = { UserEntityListener.class}) // AuditingEntityListener.class 이것도 삭제 BaseEntity에서 처리
-@Table(name="user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+//@Table(name="user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class User extends BaseEntity {
     @Id // User라는 table의 pk값
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +33,8 @@ public class User extends BaseEntity {
     @NonNull
     private String email;
 
-    @Transient
-    private String testData;
+//    @Transient
+//    private String testData;
 
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
@@ -46,7 +46,7 @@ public class User extends BaseEntity {
     @ToString.Exclude // 없으면 stackoverflow, 로그 에러
     private List<UserHistory> userHistories = new ArrayList<>(); // 리스트는 복수형을 쓰는 것이 최근 트렌드
 
-    @OneToMany(fetch = FetchType.LAZY) // 일단 ㄱㄱ @Transactinal 이랑 사용
+    @OneToMany // 일단 ㄱㄱ @Transactinal 이랑 사용
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
