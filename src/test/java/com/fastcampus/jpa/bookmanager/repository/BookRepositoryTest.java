@@ -7,7 +7,10 @@ import com.fastcampus.jpa.bookmanager.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @SpringBootTest
 public class BookRepositoryTest {
@@ -130,5 +133,20 @@ public class BookRepositoryTest {
 //        bookRepository.findByCategoryIsNull().forEach(System.out::println);
 //        bookRepository.findAllByDeletedFalse().forEach(System.out::println);
 //        bookRepository.findByCategoryIsNullAndDeletedFalse().forEach(System.out::println); // 매번 이렇게 where조건 이용해서 하면 실수했을때 치명적이게 된다.
+    }
+
+    @Test
+    void queryTest() {
+        System.out.println(" Query Method : " + bookRepository.findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual("JPA 쿼리 메소드 가독성", LocalDateTime.now().minusDays(1L), LocalDateTime.now().minusDays(1L)));
+
+        System.out.println(" Custom Query : " + bookRepository.findByNameRecently("JPA 쿼리 메소드 가독성", LocalDateTime.now().minusDays(1L), LocalDateTime.now().minusDays(1L)));
+
+//        System.out.println(bookRepository.findBookNameAndCategory()); // 에러나서 generic값을 tuple로 변경
+//        bookRepository.findBookNameAndCategory().forEach(tuple -> { System.out.println(tuple.get(0) + " : " + tuple.get(1));});
+        bookRepository.findBookNameAndCategory().forEach(b -> { System.out.println(b.getName() + " : " + b.getCategory());});
+
+        bookRepository.findBookNameAndCategory(PageRequest.of(0,1)).forEach(bookNameAndCategory -> System.out.println(bookNameAndCategory.getName() + " : " + bookNameAndCategory.getCategory()));
+
+        bookRepository.findBookNameAndCategory(PageRequest.of(1,1)).forEach(bookNameAndCategory -> System.out.println(bookNameAndCategory.getName() + " : " + bookNameAndCategory.getCategory()));
     }
 }

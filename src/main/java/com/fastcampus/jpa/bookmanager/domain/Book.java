@@ -21,7 +21,7 @@ public class Book extends BaseEntity {
     private Long id;
 
     private String name;
-
+    private String category;
 
     @OneToOne(mappedBy = "book") // 양방향 릴레이션 걸기 (책리뷰정보 ID값, Book테이블에서 안 보이게 하기)
     @ToString.Exclude // ToString의 순환참조에 의해 없는 거 참조 못하잖아
