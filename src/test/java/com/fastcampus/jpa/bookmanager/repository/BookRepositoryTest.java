@@ -4,6 +4,7 @@ import com.fastcampus.jpa.bookmanager.domain.Book;
 import com.fastcampus.jpa.bookmanager.domain.Publisher;
 import com.fastcampus.jpa.bookmanager.domain.Review;
 import com.fastcampus.jpa.bookmanager.domain.User;
+import com.fastcampus.jpa.bookmanager.repository.dto.BookStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -168,6 +169,21 @@ public class BookRepositoryTest {
         bookRepository.findAll().forEach(System.out::println);  // deleted = false까지 적용되어서 출력함
 
         System.out.println(bookRepository.showDatases());
+    }
+
+    @Test
+    void converterTest() {
+        bookRepository.findAll().forEach(System.out::println);
+        // 이렇게 하지만 객체화 해주는 ORM의 역할에 약간 어긋나있음 -> 좀 더 숫자값에 대한 객체화를 하겠음 -> bookstatus
+
+        Book book = new Book();
+        book.setName("JPA 컨버터");
+        book.setStatus(new BookStatus(200));
+        bookRepository.save(book);
+        bookRepository.findAll().forEach(System.out::println);
+
+        System.out.println(bookRepository.findRawRecord().values()); // 실제 db에는 어떻게 저장되어 있을까 ? -> 컨버터를 통해 잘 변경해서 저장됨
+
     }
 
 }

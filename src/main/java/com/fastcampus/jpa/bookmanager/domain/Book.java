@@ -1,6 +1,8 @@
 package com.fastcampus.jpa.bookmanager.domain;
 
+import com.fastcampus.jpa.bookmanager.domain.converter.BookStatusConverter;
 import com.fastcampus.jpa.bookmanager.domain.listener.Auditable;
+import com.fastcampus.jpa.bookmanager.repository.dto.BookStatus;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
@@ -52,6 +54,13 @@ public class Book extends BaseEntity {
     }
 
     private boolean deleted;
+
+    //@Convert(converter = BookStatusConverter.class) // auto-ddl에 의해 같이 생성되어서 에러 뜨기 때문에 컨버터를 정의해준다.
+    private BookStatus status;
+    // private int status;
+//    public boolean isDisplayed() {
+//        return status == 200;
+//    }  // 주석처리 BookStatus가 대신함
 
 //    @CreatedDate
 //    private LocalDateTime createdAt;

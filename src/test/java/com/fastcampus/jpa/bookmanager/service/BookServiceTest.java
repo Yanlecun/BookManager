@@ -38,4 +38,13 @@ class BookServiceTest {
 
         System.out.println(">>> " + bookRepository.findAll());
     }
+
+    @Test
+    void converterErrorTest() {
+        bookService.getAll();
+        bookRepository.findAll().forEach(System.out::println); // 실행해보면, status값이 null이 되어버림
+        // Transactional이 완료되는 시점에 변경된 내용이 있는 경우 그 데이터를 db에 영속화 하는 과정에서 update함
+        // converter가 덜 구현이 된 경우 해당 값이 변경된 것 처럼 감지해버려서 null로 읽어버린다.
+        // 조회만 했는데.. 실제 데이터가 유실되는 경우가 생겨버림
+    }
 }
