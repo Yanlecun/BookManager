@@ -36,8 +36,6 @@ public class User extends BaseEntity {
 //    @Transient
 //    private String testData;
 
-    @Enumerated(value = EnumType.STRING)
-    private Gender gender;
 
     @OneToMany(fetch = FetchType.EAGER) // 트랜잭션 배울 때 다시 설명할게
     @JoinColumn(name = "user_id",insertable = false, updatable = false) //entity가 어떤 칼럼으로 join하게 될지 지정함 -> user_history_id 가 기본값
@@ -50,6 +48,29 @@ public class User extends BaseEntity {
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
+
+    // 코드가 반복되는 것을 지양하자.
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    @Embedded
+    @AttributeOverrides({  // 한테이블의 컬럼명을 중목하는 것을 허용하지 않음 (city - city x) .. 재정의 해주자
+            @AttributeOverride(name = "city", column = @Column(name = "home_city")),
+            @AttributeOverride(name = "district", column = @Column(name = "hogme_district")),
+            @AttributeOverride(name = "detail", column = @Column(name = "home_detail")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "home_zip_code"))
+    })
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({  // 한테이블의 컬럼명을 중목하는 것을 허용하지 않음 (city - city x) .. 재정의 해주자
+            @AttributeOverride(name = "city", column = @Column(name = "company_city")),
+            @AttributeOverride(name = "district", column = @Column(name = "company_district")),
+            @AttributeOverride(name = "detail", column = @Column(name = "company_detail")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "company_zip_code"))
+    })
+    private Address companyAddress;
+
 
     //@OneToMany(fetch = FetchType.EAGER)
     //private List<Address> address;

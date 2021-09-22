@@ -101,4 +101,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Native Query, User타입해도 되지만, 더 raw한 값으로 살펴보자
     @Query(value="select * from user limit 1", nativeQuery = true)
     Map<String, Object> findRawRecord();
+
+    @Query(value = "select * from user", nativeQuery = true)
+    List<Map<String,Object>> findAllRawRecord() ;
 }

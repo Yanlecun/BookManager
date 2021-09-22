@@ -1,5 +1,6 @@
 package com.fastcampus.jpa.bookmanager.repository;
 
+import com.fastcampus.jpa.bookmanager.domain.Address;
 import com.fastcampus.jpa.bookmanager.domain.Gender;
 import com.fastcampus.jpa.bookmanager.domain.User;
 import com.fastcampus.jpa.bookmanager.domain.UserHistory;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ class UserRepositoryTest {
     private UserRepository userRepository;
     @Autowired
     private UserHistoryRepository userHistoryRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
         //@Transactional
@@ -101,7 +105,7 @@ class UserRepositoryTest {
     @Test
     void enumTest() {
         User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
-        user.setGender(Gender.MALE);
+        //user.setGender(Gender.MALE);
         userRepository.save(user);
         userRepository.findAll().forEach(System.out::println);
 
@@ -145,7 +149,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setName("thddn");
         user.setEmail("abcd@naver.com");
-        user.setGender(Gender.MALE);
+        //user.setGender(Gender.MALE);
         userRepository.save(user);
 
         user.setName("woosong");
@@ -162,5 +166,37 @@ class UserRepositoryTest {
 
         List<UserHistory> result = userRepository.findByEmail("a@naver.com").getUserHistories();
         result.forEach(System.out::println);
+    }
+
+    @Test
+    void embedTest() {
+        userRepository.findAll().forEach(System.out::println);
+
+        User user = new User();
+        user.setName("setve");
+        user.setHomeAddress(new Address("서울시", "강남구", "빌딩 101호", "10254"));
+        user.setCompanyAddress(new Address("서울시", "성동구", "성수빌딩 202호", "21111"));
+
+        User user1 = new User();
+        user1.setName("시민1");
+        user1.setHomeAddress(null);
+        user1.setCompanyAddress(null);
+
+        User user2 = new User();
+        user2.setName("시민2");
+        user2.setHomeAddress(new Address());
+        user2.setCompanyAddress(new Address()); // 어떤 방식으로 진행되었길래 결과가 다를까 ?
+
+        userRepository.save(user);
+        userRepository.save(user1);
+        userRepository.save(user2);
+
+        entityManager.clear(); // 이렇게 해주면 embed된 객체가 null인 경우 그 응용 칼럼 모두 null값이 된다.. 그렇구나 정도로 알자
+
+        userRepository.findAll().forEach(System.out::println);
+        userHistoryRepository.findAll().forEach(System.out::println); // UserEntityListener 변경후 잘 저장되었는지 확인
+        // 이런 식으로 기존의 컬럼들을 묶어서 사용할 수 있었음
+
+        userRepository.findAllRawRecord().forEach(a -> System.out.println(a.values()));
     }
 }
