@@ -23,15 +23,14 @@ class CommentRepositoryTest {
     void commentTest() {
         Comment comment = commentRepository.findById(3L).get();
         comment.setCommentedAt(LocalDateTime.now());
-        commentRepository.saveAndFlush(comment); // flush는 영속화 컨텍스트에 넣어줄 뿐, DB에 직접 접근해서 하는 친구가 아님
-        System.out.println(commentRepository.findById(3L).get()); // 트잭 x :자바 버전 now , o : sql 버전 now
+        commentRepository.save(comment); // repo의 flush는 영속화 컨텍스트에 넣어줄 뿐, DB에 직접 접근하는 친구가 아님
+        System.out.println(commentRepository.findById(3L).get()); // 트잭 x :sql 버전 now , o : 자바 버전 now
 //        commentRepository.flush();
 //        System.out.println(commentRepository.findById(3L).get());
 //        entityManager.flush();
 //        System.out.println(commentRepository.findById(3L).get());
         entityManager.clear();
-        System.out.println(commentRepository.findById(3L).get());  // save @트잭 x : 자바 버전 now, o : null
-                                                                   // saveAndFlush @트잭 x,o : 자바 버전 now
+        System.out.println(commentRepository.findById(3L).get());  // save @트잭 x : sql 버전 now, o : null
+                                                                   // saveAndFlush @트잭 x,o : sql 버전 now
     }
-
 }

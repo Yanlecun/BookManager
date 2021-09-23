@@ -18,3 +18,6 @@ spring:
     username: root
     password: 1234
     initialization-mode: always
+logging :
+  level:
+    root: trace # local에서 테스트 용도로 사용, 운영서버에서는 사용 x
