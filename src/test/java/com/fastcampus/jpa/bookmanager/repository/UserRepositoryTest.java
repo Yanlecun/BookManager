@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.endsWith;
@@ -198,5 +199,12 @@ class UserRepositoryTest {
         // 이런 식으로 기존의 컬럼들을 묶어서 사용할 수 있었음
 
         userRepository.findAllRawRecord().forEach(a -> System.out.println(a.values()));
+
+        assertAll(
+                () -> assertThat(userRepository.findById(7L).get().getHomeAddress()).isNull(),
+                () -> assertThat( userRepository.findById(7L).get().getHomeAddress()).isInstanceOf(Address.class)
+        ); // entityManager.clear()만 해줘도 DB 레코드와 영속성 캐시에서 가지는 자바 엔터티 간의 불일치 발생해서 에러가 떠버림
+
+
     }
 }

@@ -22,3 +22,9 @@ insert into publisher(`id`, `name`) values(1, '패스트캠퍼스');
 insert into book (`id`, `name`, `publisher_id`, `deleted`, `status`) values (1, 'JPA CASCADE', 1, false, 100) ;
 insert into book (`id`, `name`, `publisher_id`, `deleted`, `status`) values (2, '다음은 SPRING SECURITY', 1, false, 200) ;
 insert into book (`id`, `name`, `publisher_id`, `deleted`, `status`) values (3, 'Soft Delete', 1, true, 100) ;
+
+insert into review(`id`, `title`, `content`, `score`, `user_id`, `book_id`) values (1, "너무 좋은 책", "상세히 설명되어있었어요", 5.0, 1, 1);
+insert into review(`id`, `title`, `content`, `score`, `user_id`, `book_id`) values (2, "별로", "설명이 자세하지않음", 3.0, 2, 2);
+insert into comment(`id`, `comment`, `review_id`) values (1, "저도 좋았음", 1);
+insert into comment(`id`, `comment`, `review_id`) values (2, "첫 댓글이에요", 1);
+insert into comment(`id`, `comment`, `review_id`) values (3, "공감해요", 2);
